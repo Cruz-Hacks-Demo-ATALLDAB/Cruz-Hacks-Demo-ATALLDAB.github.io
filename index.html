@@ -51,7 +51,6 @@
         /* Generate unique class names for each line */
         /* Example: */
 
-
         .line-0::before {
             content: '100';
             position: absolute;
@@ -290,7 +289,6 @@
             color: #000000;
         }
 
-
         /* Repeat the above styles for each line, adjusting the top position for each line */
 
         #dynamic-bar {
@@ -311,6 +309,16 @@
             font-size: 1.5em;
             color: #FFFF00; /* Yellow color */
         }
+
+        #full-message {
+    font-size: 2em;
+    color: #FFFF00; /* Yellow color */
+    margin-top: 10px; /* Adjusted margin-top to move the text up */
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
     </style>
 </head>
 <body>
@@ -333,6 +341,9 @@
 
             <!-- Display percentage above the input -->
             <div id="percentage-display">Percentage Full: 0.00%</div>
+
+            <!-- Display full message based on percentage -->
+            <div id="full-message"></div>
         </div>
     </div>
 
@@ -350,17 +361,19 @@
             return `line-${index}`;
         }
 
-        // Function to update the dynamic bar based on the user input
+        // Function to update the dynamic bar and display a message
         function updateDynamicBar() {
             var capacityInput = document.getElementById('capacity-input');
             var staticBar = document.getElementById('static-bar');
             var dynamicBar = document.getElementById('dynamic-bar');
             var percentageDisplay = document.getElementById('percentage-display');
-            
+            var fullMessage = document.getElementById('full-message');
+
             var inputValue = parseInt(capacityInput.value) || 0; // Parse the input value as an integer (default to 0 if not a valid number)
             var yellowPercentage = (inputValue / 160) * 100; // Calculate the yellow percentage
 
-
+            // Clear existing lines
+            staticBar.innerHTML = '';
 
             // Generate new lines based on the current input value
             for (var i = 0; i <= 20; i++) {
@@ -375,6 +388,21 @@
             dynamicBar.style.backgroundColor = `rgba(255, 0, 0, ${yellowPercentage / 100})`; // Adjust the color based on the percentage
 
             percentageDisplay.innerText = `Percentage Full: ${yellowPercentage.toFixed(2)}%`; // Display the percentage above the input
+
+            // Display a message based on the percentage
+            // Display a message based on the percentage
+if (yellowPercentage >= 0 && yellowPercentage <= 12.5) {
+    fullMessage.innerText = "Gym is empty! This is the best time to go!!";
+} else if (yellowPercentage > 12.5 && yellowPercentage <= 50) {
+    fullMessage.innerText = "Gym isn't too crowded... You could probably get your workout done with 80 other people there";
+} else if (yellowPercentage > 50 && yellowPercentage <= 80) {
+    fullMessage.innerText = "The gym is " + yellowPercentage.toFixed(2) + "% full! Be ready to wait for a machine";
+} else if (yellowPercentage > 80) {
+    fullMessage.innerText = "The gym is packed, be ready to wait outside :(";
+} else {
+    fullMessage.innerText = ""; // Clear the message if not full
+}
+
         }
 
         // Update date and time every second
