@@ -7,11 +7,390 @@
     <title>BananaFit</title>
     <style>
         body {
-            text-align: center;
-            margin: 50px;
-            background-color: #000000; /* Black background color */
-            color: #ffffff; /* White text color */
-        }
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background: radial-gradient(ellipse at bottom, #0d1d31 0%, #0c0d13 100%);
+  overflow: hidden;
+}
+
+
+.stars {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 120%;
+  transform: rotate(-45deg);
+}
+
+.star {
+    --star-color: #FFFF00;
+  --star-tail-length: 6em;
+  --star-tail-height: 2px;
+  --star-width: calc(var(--star-tail-length) / 6);
+  --fall-duration: 9s;
+  --tail-fade-duration: var(--fall-duration);
+  position: absolute;
+  top: var(--top-offset);
+  left: 0;
+  width: var(--star-tail-length);
+  height: var(--star-tail-height);
+  color: var(--star-color);
+  background: linear-gradient(45deg, currentColor, transparent);
+  border-radius: 50%;
+  filter: drop-shadow(0 0 6px currentColor);
+  transform: translate3d(104em, 0, 0);
+  animation: fall var(--fall-duration) var(--fall-delay) linear infinite, tail-fade var(--tail-fade-duration) var(--fall-delay) ease-out infinite;
+}
+@media screen and (max-width: 750px) {
+  .star {
+    animation: fall var(--fall-duration) var(--fall-delay) linear infinite;
+  }
+}
+.star:nth-child(1) {
+  --star-tail-length: 6.4em;
+  --top-offset: 84.07vh;
+  --fall-duration: 9.524s;
+  --fall-delay: 7.676s;
+}
+.star:nth-child(2) {
+  --star-tail-length: 6.92em;
+  --top-offset: 77.65vh;
+  --fall-duration: 8.906s;
+  --fall-delay: 3.141s;
+}
+.star:nth-child(3) {
+  --star-tail-length: 5.19em;
+  --top-offset: 17.65vh;
+  --fall-duration: 10.482s;
+  --fall-delay: 6.575s;
+}
+.star:nth-child(4) {
+  --star-tail-length: 6.61em;
+  --top-offset: 62.27vh;
+  --fall-duration: 11.404s;
+  --fall-delay: 4.895s;
+}
+.star:nth-child(5) {
+  --star-tail-length: 5.37em;
+  --top-offset: 68.31vh;
+  --fall-duration: 6.52s;
+  --fall-delay: 9.05s;
+}
+.star:nth-child(6) {
+  --star-tail-length: 6.53em;
+  --top-offset: 34.46vh;
+  --fall-duration: 9.659s;
+  --fall-delay: 1.187s;
+}
+.star:nth-child(7) {
+  --star-tail-length: 6.47em;
+  --top-offset: 10.63vh;
+  --fall-duration: 8.445s;
+  --fall-delay: 9.899s;
+}
+.star:nth-child(8) {
+  --star-tail-length: 5.95em;
+  --top-offset: 91.85vh;
+  --fall-duration: 7.287s;
+  --fall-delay: 4.14s;
+}
+.star:nth-child(9) {
+  --star-tail-length: 6.8em;
+  --top-offset: 5.89vh;
+  --fall-duration: 6.548s;
+  --fall-delay: 7.142s;
+}
+.star:nth-child(10) {
+  --star-tail-length: 5.15em;
+  --top-offset: 78.1vh;
+  --fall-duration: 7.992s;
+  --fall-delay: 1.912s;
+}
+.star:nth-child(11) {
+  --star-tail-length: 7.19em;
+  --top-offset: 96.16vh;
+  --fall-duration: 9.391s;
+  --fall-delay: 7.343s;
+}
+.star:nth-child(12) {
+  --star-tail-length: 5.14em;
+  --top-offset: 73.58vh;
+  --fall-duration: 9.32s;
+  --fall-delay: 5.17s;
+}
+.star:nth-child(13) {
+  --star-tail-length: 6.99em;
+  --top-offset: 81.27vh;
+  --fall-duration: 10.017s;
+  --fall-delay: 8.317s;
+}
+.star:nth-child(14) {
+  --star-tail-length: 5em;
+  --top-offset: 7.83vh;
+  --fall-duration: 10.232s;
+  --fall-delay: 1.342s;
+}
+.star:nth-child(15) {
+  --star-tail-length: 7.34em;
+  --top-offset: 69.45vh;
+  --fall-duration: 9.196s;
+  --fall-delay: 4.489s;
+}
+.star:nth-child(16) {
+  --star-tail-length: 5.54em;
+  --top-offset: 26.53vh;
+  --fall-duration: 11.876s;
+  --fall-delay: 2.378s;
+}
+.star:nth-child(17) {
+  --star-tail-length: 5.51em;
+  --top-offset: 56.34vh;
+  --fall-duration: 8.989s;
+  --fall-delay: 6.391s;
+}
+.star:nth-child(18) {
+  --star-tail-length: 7.05em;
+  --top-offset: 99.46vh;
+  --fall-duration: 6.814s;
+  --fall-delay: 6.66s;
+}
+.star:nth-child(19) {
+  --star-tail-length: 5.22em;
+  --top-offset: 53.05vh;
+  --fall-duration: 11.303s;
+  --fall-delay: 8.306s;
+}
+.star:nth-child(20) {
+  --star-tail-length: 5.59em;
+  --top-offset: 28.04vh;
+  --fall-duration: 11.352s;
+  --fall-delay: 4.849s;
+}
+.star:nth-child(21) {
+  --star-tail-length: 5.7em;
+  --top-offset: 47.55vh;
+  --fall-duration: 9.192s;
+  --fall-delay: 0.919s;
+}
+.star:nth-child(22) {
+  --star-tail-length: 7.25em;
+  --top-offset: 28.76vh;
+  --fall-duration: 10.02s;
+  --fall-delay: 5.81s;
+}
+.star:nth-child(23) {
+  --star-tail-length: 6.46em;
+  --top-offset: 62.07vh;
+  --fall-duration: 7.63s;
+  --fall-delay: 7.304s;
+}
+.star:nth-child(24) {
+  --star-tail-length: 5.11em;
+  --top-offset: 28.87vh;
+  --fall-duration: 11.327s;
+  --fall-delay: 8.386s;
+}
+.star:nth-child(25) {
+  --star-tail-length: 6.45em;
+  --top-offset: 7.13vh;
+  --fall-duration: 8.269s;
+  --fall-delay: 3.328s;
+}
+.star:nth-child(26) {
+  --star-tail-length: 6.74em;
+  --top-offset: 99.05vh;
+  --fall-duration: 11.476s;
+  --fall-delay: 4.896s;
+}
+.star:nth-child(27) {
+  --star-tail-length: 6.71em;
+  --top-offset: 80.6vh;
+  --fall-duration: 8.707s;
+  --fall-delay: 7.763s;
+}
+.star:nth-child(28) {
+  --star-tail-length: 6.57em;
+  --top-offset: 56.82vh;
+  --fall-duration: 8.319s;
+  --fall-delay: 8.309s;
+}
+.star:nth-child(29) {
+  --star-tail-length: 6.77em;
+  --top-offset: 66.61vh;
+  --fall-duration: 8.703s;
+  --fall-delay: 0.941s;
+}
+.star:nth-child(30) {
+  --star-tail-length: 6.05em;
+  --top-offset: 85.74vh;
+  --fall-duration: 9.289s;
+  --fall-delay: 5.663s;
+}
+.star:nth-child(31) {
+  --star-tail-length: 6.33em;
+  --top-offset: 57.31vh;
+  --fall-duration: 7.183s;
+  --fall-delay: 8.977s;
+}
+.star:nth-child(32) {
+  --star-tail-length: 5.44em;
+  --top-offset: 5.57vh;
+  --fall-duration: 9.391s;
+  --fall-delay: 9.132s;
+}
+.star:nth-child(33) {
+  --star-tail-length: 6.96em;
+  --top-offset: 14.12vh;
+  --fall-duration: 11.021s;
+  --fall-delay: 2.171s;
+}
+.star:nth-child(34) {
+  --star-tail-length: 6.79em;
+  --top-offset: 97.35vh;
+  --fall-duration: 9.604s;
+  --fall-delay: 3.881s;
+}
+.star:nth-child(35) {
+  --star-tail-length: 6.05em;
+  --top-offset: 88.6vh;
+  --fall-duration: 8.371s;
+  --fall-delay: 8.809s;
+}
+.star:nth-child(36) {
+  --star-tail-length: 5.33em;
+  --top-offset: 22.9vh;
+  --fall-duration: 10.763s;
+  --fall-delay: 0.722s;
+}
+.star:nth-child(37) {
+  --star-tail-length: 7.15em;
+  --top-offset: 93vh;
+  --fall-duration: 11.363s;
+  --fall-delay: 4.832s;
+}
+.star:nth-child(38) {
+  --star-tail-length: 5.98em;
+  --top-offset: 71.79vh;
+  --fall-duration: 9.566s;
+  --fall-delay: 9.829s;
+}
+.star:nth-child(39) {
+  --star-tail-length: 5.31em;
+  --top-offset: 34.05vh;
+  --fall-duration: 11.067s;
+  --fall-delay: 2.724s;
+}
+.star:nth-child(40) {
+  --star-tail-length: 7.45em;
+  --top-offset: 94.09vh;
+  --fall-duration: 6.985s;
+  --fall-delay: 4.394s;
+}
+.star:nth-child(41) {
+  --star-tail-length: 7.18em;
+  --top-offset: 49.07vh;
+  --fall-duration: 8.022s;
+  --fall-delay: 9.907s;
+}
+.star:nth-child(42) {
+  --star-tail-length: 5.85em;
+  --top-offset: 83.97vh;
+  --fall-duration: 8.049s;
+  --fall-delay: 9.789s;
+}
+.star:nth-child(43) {
+  --star-tail-length: 7.33em;
+  --top-offset: 32.74vh;
+  --fall-duration: 7.795s;
+  --fall-delay: 6.568s;
+}
+.star:nth-child(44) {
+  --star-tail-length: 5.96em;
+  --top-offset: 75.96vh;
+  --fall-duration: 6.895s;
+  --fall-delay: 9.984s;
+}
+.star:nth-child(45) {
+  --star-tail-length: 6.89em;
+  --top-offset: 26.06vh;
+  --fall-duration: 9.799s;
+  --fall-delay: 8.336s;
+}
+.star:nth-child(46) {
+  --star-tail-length: 5.72em;
+  --top-offset: 90.74vh;
+  --fall-duration: 9.956s;
+  --fall-delay: 7.095s;
+}
+.star:nth-child(47) {
+  --star-tail-length: 5.63em;
+  --top-offset: 82.89vh;
+  --fall-duration: 6.392s;
+  --fall-delay: 7.954s;
+}
+.star:nth-child(48) {
+  --star-tail-length: 6.56em;
+  --top-offset: 2.38vh;
+  --fall-duration: 6.31s;
+  --fall-delay: 0.134s;
+}
+.star:nth-child(49) {
+  --star-tail-length: 7.47em;
+  --top-offset: 4.69vh;
+  --fall-duration: 8.11s;
+  --fall-delay: 9.683s;
+}
+.star:nth-child(50) {
+  --star-tail-length: 7.28em;
+  --top-offset: 9.11vh;
+  --fall-duration: 8.037s;
+  --fall-delay: 5.135s;
+}
+.star::before, .star::after {
+  position: absolute;
+  content: "";
+  top: 0;
+  left: calc(var(--star-width) / -2);
+  width: var(--star-width);
+  height: 100%;
+  background: linear-gradient(45deg, transparent, currentColor, transparent);
+  border-radius: inherit;
+  animation: blink 2s linear infinite;
+}
+.star::before {
+  transform: rotate(45deg);
+}
+.star::after {
+  transform: rotate(-45deg);
+}
+
+@keyframes fall {
+  to {
+    transform: translate3d(-30em, 0, 0);
+  }
+}
+@keyframes tail-fade {
+  0%, 50% {
+    width: var(--star-tail-length);
+    opacity: 1;
+  }
+  70%, 80% {
+    width: 0;
+    opacity: 0.4;
+  }
+  100% {
+    width: 0;
+    opacity: 0;
+  }
+}
+@keyframes blink {
+  50% {
+    opacity: 0.6;
+  }
+}
 
         h1 {
             font-size: 3em;
@@ -334,6 +713,61 @@
     </style>
 </head>
 <body>
+
+    <div class="stars">
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+      </div>
+
+
     <h1>BananaFit</h1>
 
     <!-- Display current date and time -->
@@ -428,14 +862,14 @@
             if (yellowPercentage >= 0 && yellowPercentage <= 12.5) {
                 fullMessage.innerText = "Gym is empty! This is the best time to go!!";
             } else if (yellowPercentage > 12.5 && yellowPercentage <= 50) {
-                fullMessage.innerText = "Gym isn't too crowded... You could probably get your workout done with a few people around";
+                fullMessage .innerText = "Gym isn't too crowded... You can definitely get your workout done with a few people around";
             } else if (yellowPercentage > 50 && yellowPercentage <= 80) {
-                fullMessage.innerText = "The gym is pretty crowded :(. Be ready to wait for a machine";
-            } else if (yellowPercentage > 80 && yellowPercentage <= 100) {
-                fullMessage.innerText = "The gym is packed, be ready to wait outside... get some cardio in at this point";
+                fullMessage.innerText = "The gym is very full! Be ready to wait for a machine, however you could probably sneak a workout in.";
+            } else if (yellowPercentage > 80 && yellowPercentage <100) {
+                fullMessage.innerText = "The gym is packed, be ready to wait outside :( I'd just do laps around the track atp :(...";
             } 
             else if (yellowPercentage > 100) {
-                fullMessage.innerText = "Literally maximum capacity... every machine is going to have 2 people on it. Proceed at your own risk";
+                fullMessage.innerText = "The gym is literally at maximum capacity, DO NOT GO, it's really difficult.";
             } 
             else {
                 fullMessage.innerText = ""; // Clear the message if not full
