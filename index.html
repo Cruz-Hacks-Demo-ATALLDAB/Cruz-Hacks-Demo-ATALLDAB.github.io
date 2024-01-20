@@ -4,6 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BananaFit</title>
+
+    <!-- Specify the Favicon -->
+    <link rel="icon" href="/Users/akki/Desktop/github main/Cruz-Hacks-Demo-ATALLDAB.github.io/Untitled/icobanana.ico" type="image/x-icon">
+
     <style>
         body {
             text-align: center;
@@ -81,7 +85,7 @@
             <!-- Dynamic bar (remains stagnant) -->
             <div id="dynamic-bar"></div>
 
-            <!-- Input for user to type a number out of 160 -->
+            <!-- Input for the user to type a number out of 160 -->
             <input type="number" id="capacity-input" placeholder="Enter a number out of 160" oninput="updateDynamicBar()">
 
             <!-- Display percentage above the input -->
@@ -108,10 +112,10 @@
             var yellowPercentage = (inputValue / 160) * 100; // Calculate the yellow percentage
 
             // Update dynamic bar (remains stagnant)
-            dynamicBar.style.height = yellowPercentage * 4 + 'px'; // Adjusted multiplier for longer bar
-            dynamicBar.style.backgroundColor = `rgba(255, 0, 0, ${yellowPercentage / 100})`; // Adjust the color based on percentage
+            dynamicBar.style.height = yellowPercentage * 4 + 'px'; // Adjusted multiplier for a longer bar
+            dynamicBar.style.backgroundColor = `rgba(255, 0, 0, ${yellowPercentage / 100})`; // Adjust the color based on the percentage
 
-            percentageDisplay.innerText = `Percentage Full: ${yellowPercentage.toFixed(2)}%`; // Display percentage above the input
+            percentageDisplay.innerText = `Percentage Full: ${yellowPercentage.toFixed(2)}%`; // Display the percentage above the input
         }
 
         // Update date and time every second
