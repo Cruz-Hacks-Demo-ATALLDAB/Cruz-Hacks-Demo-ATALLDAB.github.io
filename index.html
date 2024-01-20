@@ -51,7 +51,6 @@
         /* Add the following styles for lines */
         /* Generate unique class names for each line */
         /* Example: */
-
         .line-0::before {
             content: '100';
             position: absolute;
@@ -290,7 +289,6 @@
             color: #000000;
         }
 
-        /* Repeat the above styles for each line, adjusting the top position for each line */
 
         #dynamic-bar {
             width: 150px;
@@ -301,79 +299,88 @@
             z-index: 2; /* Place dynamic bar on top */
         }
 
-        #capacity-input {
-            font-size: 1.5em;
-            padding: 5px;
-        }
-
         #percentage-display {
             font-size: 1.5em;
             color: #FFFF00; /* Yellow color */
         }
 
         #full-message {
-    font-size: 2em;
-    color: #FFFF00; /* Yellow color */
-    margin-top: 10px; /* Adjusted margin-top to move the text up */
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-}
-    </style>
- 
+            font-size: 2em;
+            color: #FFFF00; /* Yellow color */
+            margin-top: 10px; /* Adjusted margin-top to move the text up */
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
 
-</style>
+        #people-counter {
+            font-size: 1.5em;
+            margin-top: 10px;
+            color: #FFFF00; /* Yellow color */
+        }
+
+        #buttons-container {
+            display: flex;
+            justify-content: center;
+            margin-top: 10px;
+        }
+
+        button {
+            font-size: 1.5em;
+            padding: 10px;
+            margin: 0 5px;
+        }
+    </style>
 </head>
 <body>
-<h1>BananaFit</h1>
+    <h1>BananaFit</h1>
 
-<!-- Display current date and time -->
-<div id="datetime"></div>
+    <!-- Display current date and time -->
+    <div id="datetime"></div>
 
-<div id="container">
-<!-- Bar and input container -->
-<div id="bar-container">
-    <!-- Static bar (changes based on the user input) -->
-    <div id="static-bar"></div>
+    <div id="container">
+        <!-- Bar container -->
+        <div id="bar-container">
+            <!-- Static bar (changes based on the user input) -->
+            <div id="static-bar"></div>
 
-    <!-- Dynamic bar (remains stagnant) -->
-    <div id="dynamic-bar"></div>
+            <!-- Dynamic bar (remains stagnant) -->
+            <div id="dynamic-bar"></div>
 
-    <!-- Input for the user to type a number out of 160 -->
-    <input type="number" id="capacity-input" placeholder="Enter a number out of 160" oninput="updateDynamicBar()">
+            <!-- Display percentage above the input -->
+            <div id="percentage-display">Percentage Full: 0.00%</div>
 
-    <!-- Display percentage above the input -->
-    <div id="percentage-display">Percentage Full: 0.00%</div>
+            <!-- Display full message based on percentage -->
+            <div id="full-message"></div>
 
-    <!-- Display full message based on percentage -->
-    <div id="full-message"></div>
+            <!-- Display people counter -->
+            <div id="people-counter">Current People at the Gym: 0</div>
 
-    <!-- Display people counter -->
-    <div id="people-counter">Current People at the Gym: 0</div>
-
-    <!-- Buttons for tracking people -->
-    <div id="buttons-container">
-        <button onclick="trackPeople('in')">In</button>
-        <button onclick="trackPeople('out')">Out</button>
+            <!-- Buttons for tracking people -->
+            <div id="buttons-container">
+                <button onclick="trackPeople('in')">In</button>
+                <button onclick="trackPeople('out')">Out</button>
+            </div>
+        </div>
     </div>
-</div>
-</div>
 
     <script>
-        
-        var currentPeople = 0;
+        var currentPeopleCount = 0;
 
         // Function to track people (in or out)
         function trackPeople(action) {
             if (action === 'in') {
-                currentPeople++;
-            } else if (action === 'out' && currentPeople > 0) {
-                currentPeople--;
+                currentPeopleCount += 1; // Increase by 1 person for each entry
+            } else if (action === 'out' && currentPeopleCount > 0) {
+                currentPeopleCount -= 1; // Decrease by 1 person for each exit
             }
 
             // Update the people counter display
-            document.getElementById('people-counter').innerText = 'Current People at the Gym: ' + currentPeople;
+            document.getElementById('people-counter').innerText = `Current People at the Gym: ${currentPeopleCount}`;
+
+            // Update the dynamic bar and display a message
+            updateDynamicBar();
         }
 
         // Display current date and time
@@ -391,14 +398,14 @@
 
         // Function to update the dynamic bar and display a message
         function updateDynamicBar() {
-            var capacityInput = document.getElementById('capacity-input');
             var staticBar = document.getElementById('static-bar');
             var dynamicBar = document.getElementById('dynamic-bar');
             var percentageDisplay = document.getElementById('percentage-display');
             var fullMessage = document.getElementById('full-message');
 
-            var inputValue = parseInt(capacityInput.value) || 0; // Parse the input value as an integer (default to 0 if not a valid number)
-            var yellowPercentage = (inputValue / 160) * 100; // Calculate the yellow percentage
+            // Calculate the yellow percentage based on the total people and maximum capacity
+            var totalCapacity = 160; // Set the maximum capacity of the gym
+            var yellowPercentage = (currentPeopleCount / totalCapacity) * 100;
 
             // Clear existing lines
             staticBar.innerHTML = '';
@@ -418,19 +425,21 @@
             percentageDisplay.innerText = `Percentage Full: ${yellowPercentage.toFixed(2)}%`; // Display the percentage above the input
 
             // Display a message based on the percentage
-            // Display a message based on the percentage
-if (yellowPercentage >= 0 && yellowPercentage <= 12.5) {
-    fullMessage.innerText = "Gym is empty! This is the best time to go!!";
-} else if (yellowPercentage > 12.5 && yellowPercentage <= 50) {
-    fullMessage.innerText = "Gym isn't too crowded... You could probably get your workout done with 80 other people there";
-} else if (yellowPercentage > 50 && yellowPercentage <= 80) {
-    fullMessage.innerText = "The gym is " + yellowPercentage.toFixed(2) + "% full! Be ready to wait for a machine";
-} else if (yellowPercentage > 80) {
-    fullMessage.innerText = "The gym is packed, be ready to wait outside :(";
-} else {
-    fullMessage.innerText = ""; // Clear the message if not full
-}
-
+            if (yellowPercentage >= 0 && yellowPercentage <= 12.5) {
+                fullMessage.innerText = "Gym is empty! This is the best time to go!!";
+            } else if (yellowPercentage > 12.5 && yellowPercentage <= 50) {
+                fullMessage.innerText = "Gym isn't too crowded... You could probably get your workout done with a few people around";
+            } else if (yellowPercentage > 50 && yellowPercentage <= 80) {
+                fullMessage.innerText = "The gym is pretty crowded :(. Be ready to wait for a machine";
+            } else if (yellowPercentage > 80 && yellowPercentage <= 100) {
+                fullMessage.innerText = "The gym is packed, be ready to wait outside... get some cardio in at this point";
+            } 
+            else if (yellowPercentage > 100) {
+                fullMessage.innerText = "Literally maximum capacity... every machine is going to have 2 people on it. Proceed at your own risk";
+            } 
+            else {
+                fullMessage.innerText = ""; // Clear the message if not full
+            }
         }
 
         // Update date and time every second
