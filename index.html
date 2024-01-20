@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BananaFit</title>
+    <style>
+        body {
+            text-align: center;
+            margin: 50px;
+            background-color: #000000; /* Black background color */
+            color: #ffffff; /* White text color */
+        }
+
+        h1 {
+            font-size: 3em;
+            color: #FFFF00; /* Yellow color */
+        }
+
+        #datetime {
+            font-size: 1.5em;
+            color: #FFFF00; /* Yellow color */
+            margin-bottom: 10px;
+        }
+
+        #loading-bubbles {
+            margin-top: 20px;
+        }
+
+        .loading-bubble {
+            display: inline-block;
+            margin: 0 10px;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            border: 3px solid transparent;
+            animation: spin 1s linear infinite;
+        }
+
+        .yellow {
+            border-color: rgba(253, 199, 0, 1); /* Yellow color */
+        }
+
+        .blue {
+            border-color: rgba(0, 0, 255, 1); /* Blue color */
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        #button-container {
+            margin-top: 20px;
+        }
+
+        #counter-button {
+            font-size: 1.5em;
+            padding: 10px 20px;
+            background-color: #FFFF00; /* Yellow color */
+            color: #000000; /* Black text color */
+            border: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h1>BananaFit</h1>
+
+    <!-- Display current date and time -->
+    <div id="datetime"></div>
+
+    <!-- Loading bubbles with spinning animation -->
+    <div id="loading-bubbles">
+        <!-- Use JavaScript to dynamically create loading bubbles -->
+    </div>
+
+    <!-- Button to increase counter and randomize bubble colors -->
+    <div id="button-container">
+        <button id="counter-button" onclick="increaseCounterAndRandomize()">Increase Counter and Randomize</button>
+    </div>
+
+    <script>
+        var counter = 0;
+
+        // Display current date and time
+        function updateDateTime() {
+            var currentDate = new Date();
+            var formattedDate = currentDate.toLocaleDateString();
+            var formattedTime = currentDate.toLocaleTimeString();
+            document.getElementById('datetime').innerText = formattedDate + ' ' + formattedTime;
+        }
+
+        // Function to create loading bubbles
+        function createLoadingBubbles(yellowPercentage) {
+            var loadingBubblesContainer = document.getElementById('loading-bubbles');
+            loadingBubblesContainer.innerHTML = ''; // Clear previous bubbles
+
+            // Create 10 loading bubbles
+            for (var i = 0; i < 10; i++) {
+                var bubble = document.createElement('div');
+                bubble.className = 'loading-bubble';
+
+                // Set the color based on the percentage
+                if (i < yellowPercentage) {
+                    bubble.classList.add('yellow');
+                } else {
+                    bubble.classList.add('blue');
+                }
+
+                loadingBubblesContainer.appendChild(bubble);
+            }
+        }
+
+        // Function to increase counter and randomize bubble colors
+        function increaseCounterAndRandomize() {
+            counter = (counter + 1) % 10; // Increment counter and ensure it stays between 0 and 9
+            var yellowPercentage = counter + 1; // Use counter + 1 as the yellow percentage
+            createLoadingBubbles(yellowPercentage); // Create bubbles with random colors based on percentage
+        }
+
+        // Update date and time every second
+        setInterval(updateDateTime, 1000);
+        updateDateTime(); // Initial call to set the initial date and time
+    </script>
+</body>
+</html>
