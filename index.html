@@ -311,8 +311,6 @@
             font-size: 1.5em;
             color: #FFFF00; /* Yellow color */
         }
-
-       
     </style>
 </head>
 <body>
@@ -335,8 +333,6 @@
 
             <!-- Display percentage above the input -->
             <div id="percentage-display">Percentage Full: 0.00%</div>
-
-            
         </div>
     </div>
 
@@ -381,82 +377,12 @@
             percentageDisplay.innerText = `Percentage Full: ${yellowPercentage.toFixed(2)}%`; // Display the percentage above the input
         }
 
-        // Access the camera and display the video feed
-        
-    </script>
+        // Update date and time every second
+        setInterval(updateDateTime, 1000);
+        updateDateTime(); // Initial call to set the initial date and time
 
-    <script>
-        // Simple motion detection class
-        class MotionDetection {
-            constructor(videoElement, sensitivity, onMotionDetected) {
-                this.videoElement = videoElement;
-                this.sensitivity = sensitivity;
-                this.onMotionDetected = onMotionDetected;
-                this.canvas = document.createElement('canvas');
-                this.ctx = this.canvas.getContext('2d');
-                this.motionTimer = null;
-
-                this.videoWidth = videoElement.width;
-                this.videoHeight = videoElement.height;
-
-                this.canvas.width = this.videoWidth;
-                this.canvas.height = this.videoHeight;
-
-                // Capture initial frame as reference
-                this.captureReferenceFrame();
-            }
-
-            start() {
-                this.motionTimer = requestAnimationFrame(this.detectMotion.bind(this));
-            }
-
-            stop() {
-                cancelAnimationFrame(this.motionTimer);
-            }
-
-            captureReferenceFrame() {
-                this.ctx.drawImage(this.videoElement, 0, 0, this.videoWidth, this.videoHeight);
-                this.referenceFrame = this.ctx.getImageData(0, 0, this.videoWidth, this.videoHeight);
-            }
-
-            detectMotion() {
-                this.ctx.drawImage(this.videoElement, 0, 0, this.videoWidth, this.videoHeight);
-                const currentFrame = this.ctx.getImageData(0, 0, this.videoWidth, this.videoHeight);
-
-                const diffPixels = this.calculatePixelDifference(this.referenceFrame.data, currentFrame.data);
-                const diffPercentage = (diffPixels / (this.videoWidth * this.videoHeight)) * 100;
-
-                if (diffPercentage > this.sensitivity) {
-                    // Motion detected
-                    this.onMotionDetected();
-                }
-
-                // Capture the current frame for the next iteration
-                this.referenceFrame = currentFrame;
-
-                // Continue motion detection
-                this.motionTimer = requestAnimationFrame(this.detectMotion.bind(this));
-            }
-
-            calculatePixelDifference(reference, current) {
-                let diffPixels = 0;
-
-                for (let i = 0; i < reference.length; i += 4) {
-                    const diffR = Math.abs(reference[i] - current[i]);
-                    const diffG = Math.abs(reference[i + 1] - current[i + 1]);
-                    const diffB = Math.abs(reference[i + 2] - current[i + 2]);
-
-                    // Using a simple grayscale approximation
-                    const diff = (diffR + diffG + diffB) / 3;
-
-                    if (diff > 20) {
-                        diffPixels++;
-                    }
-                }
-
-                return diffPixels;
-            }
-        }
+        // Initialize the dynamic bar display with a default value
+        updateDynamicBar();
     </script>
 </body>
 </html>
