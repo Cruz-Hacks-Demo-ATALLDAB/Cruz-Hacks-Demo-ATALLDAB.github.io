@@ -4,12 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BananaFit</title>
-
-    <!-- Specify the ICO favicon -->
-    <link rel="icon" href="banana.gif" type="image/x-icon">
-
     <style>
-        /* Your existing styles remain unchanged */
         body {
             text-align: center;
             margin: 50px;
@@ -44,7 +39,7 @@
 
         #static-bar {
             width: 150px;
-            height: 300px; /* Set the height of the static bar */
+            height: 400px; /* Set the height of the static bar */
             background-color: #FFFF00; /* Yellow color */
             border: 2px solid #000000; /* Black border */
             margin-right: 20px; /* Margin to separate static bar and input */
@@ -53,7 +48,7 @@
 
         #dynamic-bar {
             width: 150px;
-            height: 300px; /* Set the height of the dynamic bar */
+            height: 400px; /* Increase the height to make the bar longer */
             border: 2px solid #000000; /* Black border */
             background-color: #FF0000; /* Red color of the stagnant dynamic bar */
             position: absolute; /* Position absolute for overlapping */
@@ -69,17 +64,62 @@
             font-size: 1.5em;
             color: #FFFF00; /* Yellow color */
         }
-
-        #banana-gif-embed {
-            margin-top: 20px; /* Add margin to separate the GIF from the bar */
-        }
     </style>
 </head>
 <body>
-    <!-- Your existing HTML body content -->
+    <h1>BananaFit</h1>
+
+    <!-- Display current date and time -->
+    <div id="datetime"></div>
+
+    <div id="container">
+        <!-- Bar and input container -->
+        <div id="bar-container">
+            <!-- Static bar (changes based on the user input) -->
+            <div id="static-bar"></div>
+
+            <!-- Dynamic bar (remains stagnant) -->
+            <div id="dynamic-bar"></div>
+
+            <!-- Input for user to type a number out of 160 -->
+            <input type="number" id="capacity-input" placeholder="Enter a number out of 160" oninput="updateDynamicBar()">
+
+            <!-- Display percentage above the input -->
+            <div id="percentage-display">Percentage Full: 0.00%</div>
+        </div>
+    </div>
 
     <script>
-        // Your existing JavaScript code
+        // Display current date and time
+        function updateDateTime() {
+            var currentDate = new Date();
+            var formattedDate = currentDate.toLocaleDateString();
+            var formattedTime = currentDate.toLocaleTimeString();
+            document.getElementById('datetime').innerText = formattedDate + ' ' + formattedTime;
+        }
+
+        // Function to update dynamic bar based on the user input
+        function updateDynamicBar() {
+            var capacityInput = document.getElementById('capacity-input');
+            var dynamicBar = document.getElementById('dynamic-bar');
+            var percentageDisplay = document.getElementById('percentage-display');
+            
+            var inputValue = parseInt(capacityInput.value) || 0; // Parse the input value as an integer (default to 0 if not a valid number)
+            var yellowPercentage = (inputValue / 160) * 100; // Calculate the yellow percentage
+
+            // Update dynamic bar (remains stagnant)
+            dynamicBar.style.height = yellowPercentage * 4 + 'px'; // Adjusted multiplier for longer bar
+            dynamicBar.style.backgroundColor = `rgba(255, 0, 0, ${yellowPercentage / 100})`; // Adjust the color based on percentage
+
+            percentageDisplay.innerText = `Percentage Full: ${yellowPercentage.toFixed(2)}%`; // Display percentage above the input
+        }
+
+        // Update date and time every second
+        setInterval(updateDateTime, 1000);
+        updateDateTime(); // Initial call to set the initial date and time
+
+        // Initialize the dynamic bar display with a default value
+        updateDynamicBar();
     </script>
 </body>
 </html>
