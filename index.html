@@ -312,12 +312,7 @@
             color: #FFFF00; /* Yellow color */
         }
 
-        #camera-feed {
-            position: absolute;
-            top: 0;
-            left: 0;
-            z-index: 3; /* Place camera feed on top */
-        }
+       
     </style>
 </head>
 <body>
@@ -341,8 +336,7 @@
             <!-- Display percentage above the input -->
             <div id="percentage-display">Percentage Full: 0.00%</div>
 
-            <!-- Video feed from the camera -->
-            <video id="camera-feed" width="300" height="200" autoplay></video>
+            
         </div>
     </div>
 
@@ -388,42 +382,7 @@
         }
 
         // Access the camera and display the video feed
-        async function startCamera() {
-            try {
-                const stream = await navigator.mediaDevices.getUserMedia({ video: true });
-                const videoElement = document.getElementById('camera-feed');
-                videoElement.srcObject = stream;
-
-                // Set up motion detection
-                const motionDetection = new MotionDetection(videoElement, 30, onMotionDetected);
-
-                // Start motion detection
-                motionDetection.start();
-
-                // Stop motion detection after 10 seconds (adjust as needed)
-                setTimeout(() => {
-                    motionDetection.stop();
-                }, 10000);
-            } catch (error) {
-                console.error('Error accessing the camera:', error);
-            }
-        }
-
-        // Callback function for motion detected
-        function onMotionDetected() {
-            // Increment the counter or update as needed
-            console.log('Motion Detected!');
-        }
-
-        // Update date and time every second
-        setInterval(updateDateTime, 1000);
-        updateDateTime(); // Initial call to set the initial date and time
-
-        // Initialize the dynamic bar display with a default value
-        updateDynamicBar();
-
-        // Start the camera and motion detection when the page loads
-        document.addEventListener('DOMContentLoaded', startCamera);
+        
     </script>
 
     <script>
