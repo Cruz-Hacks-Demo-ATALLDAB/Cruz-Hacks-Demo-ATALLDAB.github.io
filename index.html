@@ -7,7 +7,7 @@
     <title>BananaFit</title>
     <style>
         body {
-  display: block;
+  display:block;
   justify-content: center;
   align-items: center;
   min-height: 100vh;
@@ -800,7 +800,12 @@
     </div>
 
     <script>
-        var currentPeopleCount = 0;
+
+        var storedPeopleCount = localStorage.getItem('currentPeopleCount');
+        currentPeopleCount = storedPeopleCount ? parseInt(storedPeopleCount, 10) : 0;
+
+        // Update the people counter display
+        document.getElementById('people-counter').innerText = `Current People at the Gym: ${currentPeopleCount}`;
 
         // Function to track people (in or out)
         function trackPeople(action) {
@@ -812,6 +817,8 @@
 
             // Update the people counter display
             document.getElementById('people-counter').innerText = `Current People at the Gym: ${currentPeopleCount}`;
+
+            localStorage.setItem('currentPeopleCount', currentPeopleCount);
 
             // Update the dynamic bar and display a message
             updateDynamicBar();
