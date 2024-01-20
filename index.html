@@ -321,34 +321,61 @@
     transform: translate(-50%, -50%);
 }
     </style>
+ 
+
+</style>
 </head>
 <body>
-    <h1>BananaFit</h1>
+<h1>BananaFit</h1>
 
-    <!-- Display current date and time -->
-    <div id="datetime"></div>
+<!-- Display current date and time -->
+<div id="datetime"></div>
 
-    <div id="container">
-        <!-- Bar and input container -->
-        <div id="bar-container">
-            <!-- Static bar (changes based on the user input) -->
-            <div id="static-bar"></div>
+<div id="container">
+<!-- Bar and input container -->
+<div id="bar-container">
+    <!-- Static bar (changes based on the user input) -->
+    <div id="static-bar"></div>
 
-            <!-- Dynamic bar (remains stagnant) -->
-            <div id="dynamic-bar"></div>
+    <!-- Dynamic bar (remains stagnant) -->
+    <div id="dynamic-bar"></div>
 
-            <!-- Input for the user to type a number out of 160 -->
-            <input type="number" id="capacity-input" placeholder="Enter a number out of 160" oninput="updateDynamicBar()">
+    <!-- Input for the user to type a number out of 160 -->
+    <input type="number" id="capacity-input" placeholder="Enter a number out of 160" oninput="updateDynamicBar()">
 
-            <!-- Display percentage above the input -->
-            <div id="percentage-display">Percentage Full: 0.00%</div>
+    <!-- Display percentage above the input -->
+    <div id="percentage-display">Percentage Full: 0.00%</div>
 
-            <!-- Display full message based on percentage -->
-            <div id="full-message"></div>
-        </div>
+    <!-- Display full message based on percentage -->
+    <div id="full-message"></div>
+
+    <!-- Display people counter -->
+    <div id="people-counter">Current People at the Gym: 0</div>
+
+    <!-- Buttons for tracking people -->
+    <div id="buttons-container">
+        <button onclick="trackPeople('in')">In</button>
+        <button onclick="trackPeople('out')">Out</button>
     </div>
+</div>
+</div>
 
     <script>
+        
+        var currentPeople = 0;
+
+        // Function to track people (in or out)
+        function trackPeople(action) {
+            if (action === 'in') {
+                currentPeople++;
+            } else if (action === 'out' && currentPeople > 0) {
+                currentPeople--;
+            }
+
+            // Update the people counter display
+            document.getElementById('people-counter').innerText = 'Current People at the Gym: ' + currentPeople;
+        }
+
         // Display current date and time
         function updateDateTime() {
             var currentDate = new Date();
