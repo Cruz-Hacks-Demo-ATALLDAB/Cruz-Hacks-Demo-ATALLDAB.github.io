@@ -311,6 +311,13 @@
             font-size: 1.5em;
             color: #FFFF00; /* Yellow color */
         }
+
+        #camera-feed {
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 3; /* Place camera feed on top */
+        }
     </style>
 </head>
 <body>
@@ -333,6 +340,9 @@
 
             <!-- Display percentage above the input -->
             <div id="percentage-display">Percentage Full: 0.00%</div>
+
+            <!-- Video feed from the camera -->
+            <video id="camera-feed" width="300" height="200" autoplay></video>
         </div>
     </div>
 
@@ -377,12 +387,117 @@
             percentageDisplay.innerText = `Percentage Full: ${yellowPercentage.toFixed(2)}%`; // Display the percentage above the input
         }
 
+        // Access the camera and display the video feed
+        async function startCamera() {
+            try {
+                const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+                const videoElement = document.getElementById('camera-feed');
+                videoElement.srcObject = stream;
+
+                // Set up motion detection
+                const motionDetection = new MotionDetection(videoElement, 30, onMotionDetected);
+
+                // Start motion detection
+                motionDetection.start();
+
+                // Stop motion detection after 10 seconds (adjust as needed)
+                setTimeout(() => {
+                    motionDetection.stop();
+                }, 10000);
+            } catch (error) {
+                console.error('Error accessing the camera:', error);
+            }
+        }
+
+        // Callback function for motion detected
+        function onMotionDetected() {
+            // Increment the counter or update as needed
+            console.log('Motion Detected!');
+        }
+
         // Update date and time every second
         setInterval(updateDateTime, 1000);
         updateDateTime(); // Initial call to set the initial date and time
 
         // Initialize the dynamic bar display with a default value
         updateDynamicBar();
+
+        // Start the camera and motion detection when the page loads
+        document.addEventListener('DOMContentLoaded', startCamera);
+    </script>
+
+    <script>
+        // Simple motion detection class
+        class MotionDetection {
+            constructor(videoElement, sensitivity, onMotionDetected) {
+                this.videoElement = videoElement;
+                this.sensitivity = sensitivity;
+                this.onMotionDetected = onMotionDetected;
+                this.canvas = document.createElement('canvas');
+                this.ctx = this.canvas.getContext('2d');
+                this.motionTimer = null;
+
+                this.videoWidth = videoElement.width;
+                this.videoHeight = videoElement.height;
+
+                this.canvas.width = this.videoWidth;
+                this.canvas.height = this.videoHeight;
+
+                // Capture initial frame as reference
+                this.captureReferenceFrame();
+            }
+
+            start() {
+                this.motionTimer = requestAnimationFrame(this.detectMotion.bind(this));
+            }
+
+            stop() {
+                cancelAnimationFrame(this.motionTimer);
+            }
+
+            captureReferenceFrame() {
+                this.ctx.drawImage(this.videoElement, 0, 0, this.videoWidth, this.videoHeight);
+                this.referenceFrame = this.ctx.getImageData(0, 0, this.videoWidth, this.videoHeight);
+            }
+
+            detectMotion() {
+                this.ctx.drawImage(this.videoElement, 0, 0, this.videoWidth, this.videoHeight);
+                const currentFrame = this.ctx.getImageData(0, 0, this.videoWidth, this.videoHeight);
+
+                const diffPixels = this.calculatePixelDifference(this.referenceFrame.data, currentFrame.data);
+                const diffPercentage = (diffPixels / (this.videoWidth * this.videoHeight)) * 100;
+
+                if (diffPercentage > this.sensitivity) {
+                    // Motion detected
+                    this.onMotionDetected();
+                }
+
+                // Capture the current frame for the next iteration
+                this.referenceFrame = currentFrame;
+
+                // Continue motion detection
+                this.motionTimer = requestAnimationFrame(this.detectMotion.bind(this));
+            }
+
+            calculatePixelDifference(reference, current) {
+                let diffPixels = 0;
+
+                for (let i = 0; i < reference.length; i += 4) {
+                    const diffR = Math.abs(reference[i] - current[i]);
+                    const diffG = Math.abs(reference[i + 1] - current[i + 1]);
+                    const diffB = Math.abs(reference[i + 2] - current[i + 2]);
+
+                    // Using a simple grayscale approximation
+                    const diff = (diffR + diffG + diffB) / 3;
+
+                    if (diff > 20) {
+                        diffPixels++;
+                    }
+                }
+
+                return diffPixels;
+            }
+        }
     </script>
 </body>
 </html>
