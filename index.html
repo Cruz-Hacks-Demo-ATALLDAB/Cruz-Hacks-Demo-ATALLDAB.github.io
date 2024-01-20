@@ -8,7 +8,7 @@
         body {
             text-align: center;
             margin: 50px;
-            background-color: #DCDCDC; /* Black background color */
+            background-color: #000000; /* Black background color */
             color: #ffffff; /* White text color */
         }
 
@@ -23,44 +23,46 @@
             margin-bottom: 10px;
         }
 
-        #loading-bubbles {
-            margin-top: 20px;
+        #container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
         }
 
-        .loading-bubble {
-            display: inline-block;
-            margin: 0 10px;
-            width: 20px;
-            height: 20px;
-            border-radius: 50%;
-            border: 3px solid transparent;
-            animation: spin 1s linear infinite;
+        #bar-container {
+            display: flex;
+            align-items: flex-end;
+            margin-bottom: 20px;
+            position: relative;
         }
 
-        .yellow {
-            border-color: rgba(253, 199, 0, 1); /* Yellow color */
-        }
-
-        .blue {
-            border-color: rgba(0, 0, 255, 1); /* Blue color */
-        }
-
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        #button-container {
-            margin-top: 20px;
-        }
-
-        #counter-button {
-            font-size: 1.5em;
-            padding: 10px 20px;
+        #static-bar {
+            width: 150px;
+            height: 300px; /* Set the height of the static bar */
             background-color: #FFFF00; /* Yellow color */
-            color: #000000; /* Black text color */
-            border: none;
-            cursor: pointer;
+            border: 2px solid #000000; /* Black border */
+            margin-right: 20px; /* Margin to separate static bar and input */
+            z-index: 1; /* Place static bar behind dynamic bar */
+        }
+
+        #dynamic-bar {
+            width: 150px;
+            height: 300px; /* Set the height of the dynamic bar */
+            border: 2px solid #000000; /* Black border */
+            background-color: #FF0000; /* Red color of the stagnant dynamic bar */
+            position: absolute; /* Position absolute for overlapping */
+            z-index: 2; /* Place dynamic bar on top */
+        }
+
+        #capacity-input {
+            font-size: 1.5em;
+            padding: 5px;
+        }
+
+        #percentage-display {
+            font-size: 1.5em;
+            color: #FFFF00; /* Yellow color */
         }
     </style>
 </head>
@@ -70,19 +72,24 @@
     <!-- Display current date and time -->
     <div id="datetime"></div>
 
-    <!-- Loading bubbles with spinning animation -->
-    <div id="loading-bubbles">
-        <!-- Use JavaScript to dynamically create loading bubbles -->
-    </div>
+    <div id="container">
+        <!-- Bar and input container -->
+        <div id="bar-container">
+            <!-- Static bar (changes based on the user input) -->
+            <div id="static-bar"></div>
 
-    <!-- Button to increase counter and randomize bubble colors -->
-    <div id="button-container">
-        <button id="counter-button" onclick="increaseCounterAndRandomize()">Increase Counter and Randomize</button>
+            <!-- Dynamic bar (remains stagnant) -->
+            <div id="dynamic-bar"></div>
+
+            <!-- Input for user to type a number out of 160 -->
+            <input type="number" id="capacity-input" placeholder="Enter a number out of 160" oninput="updateDynamicBar()">
+
+            <!-- Display percentage above the input -->
+            <div id="percentage-display">Percentage Full: 0.00%</div>
+        </div>
     </div>
 
     <script>
-        var counter = 0;
-
         // Display current date and time
         function updateDateTime() {
             var currentDate = new Date();
@@ -91,37 +98,31 @@
             document.getElementById('datetime').innerText = formattedDate + ' ' + formattedTime;
         }
 
-        // Function to create loading bubbles
-        function createLoadingBubbles(yellowPercentage) {
-            var loadingBubblesContainer = document.getElementById('loading-bubbles');
-            loadingBubblesContainer.innerHTML = ''; // Clear previous bubbles
+        // Function to update dynamic bar based on the user input
+        function updateDynamicBar() {
+            var capacityInput = document.getElementById('capacity-input');
+            var dynamicBar = document.getElementById('dynamic-bar');
+            var percentageDisplay = document.getElementById('percentage-display');
+            
+            var inputValue = parseInt(capacityInput.value) || 0; // Parse the input value as an integer (default to 0 if not a valid number)
+            var yellowPercentage = (inputValue / 160) * 100; // Calculate the yellow percentage
 
-            // Create 10 loading bubbles
-            for (var i = 0; i < 10; i++) {
-                var bubble = document.createElement('div');
-                bubble.className = 'loading-bubble';
+            // Ensure the yellow percentage is within the valid range (0 to 100)
+            yellowPercentage = Math.max(0, Math.min(yellowPercentage, 100));
 
-                // Set the color based on the percentage
-                if (i < yellowPercentage) {
-                    bubble.classList.add('yellow');
-                } else {
-                    bubble.classList.add('blue');
-                }
+            // Update dynamic bar (remains stagnant)
+            dynamicBar.style.height = yellowPercentage * 3 + 'px';
+            dynamicBar.style.backgroundColor = `rgba(255, 0, 0, ${yellowPercentage / 100})`; // Adjust the color based on percentage
 
-                loadingBubblesContainer.appendChild(bubble);
-            }
-        }
-
-        // Function to increase counter and randomize bubble colors
-        function increaseCounterAndRandomize() {
-            counter = (counter + 1) % 10; // Increment counter and ensure it stays between 0 and 9
-            var yellowPercentage = counter + 1; // Use counter + 1 as the yellow percentage
-            createLoadingBubbles(yellowPercentage); // Create bubbles with random colors based on percentage
+            percentageDisplay.innerText = `Percentage Full: ${yellowPercentage.toFixed(2)}%`; // Display percentage above the input
         }
 
         // Update date and time every second
         setInterval(updateDateTime, 1000);
         updateDateTime(); // Initial call to set the initial date and time
+
+        // Initialize the dynamic bar display with a default value
+        updateDynamicBar();
     </script>
 </body>
 </html>
