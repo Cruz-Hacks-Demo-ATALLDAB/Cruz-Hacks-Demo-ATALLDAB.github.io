@@ -12,24 +12,22 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 var contactFormDB = firebase.database().ref('contactForm');
 
-document.getElementById('contactForm').addEventListener('submit', submitForm);
+// Add event listener for the "out" button
+document.getElementById('outButton').addEventListener('click', saveAndPrintCount);
 
-function submitForm(e){
-    e.preventDefault();
+function saveAndPrintCount() {
+   var currentPeopleCount = getElementVal('current-people-count');
 
-    var currentPeopleCount = getElementVal('current-people-count');
+   // Save the current people count to the database
+   contactFormDB.push().set({
+       currentPeopleCount: currentPeopleCount,
+       timestamp: firebase.database.ServerValue.TIMESTAMP
+   });
 
-    console.log(currentPeopleCount);
-
-    // Save the current people count to the database
-    contactFormDB.push().set({
-        currentPeopleCount: currentPeopleCount,
-        timestamp: firebase.database.ServerValue.TIMESTAMP
-    });
-
-    // You can add additional logic here if needed
+   // Print the current people count
+   console.log('Current people count:', currentPeopleCount);
 }
 
-const getElementVal = (id) =>{
-    return document.getElementById(id).value;
+const getElementVal = (id) => {
+   return document.getElementById(id).value;
 };
