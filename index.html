@@ -880,7 +880,7 @@ var storedPeopleCount = localStorage.getItem('currentPeopleCount');
             } else if (yellowPercentage > 80 && yellowPercentage <100) {
                 fullMessage.innerText = "The gym is packed, be ready to wait outside :( I'd just do laps around the track atp :(...";
             } 
-            else if (yellowPercentage > 100) {
+            else if (yellowPercentage >= 100) {
                 fullMessage.innerText = "The gym is literally at maximum capacity, DO NOT GO, it's really difficult.";
             } 
             else {
