@@ -10,7 +10,7 @@ hog = cv2.HOGDescriptor()
 hog.setSVMDetector(cv2.HOGDescriptor_getDefaultPeopleDetector())
 
 # Source example video
-cap = cv2.VideoCapture('walk2.mp4')
+cap = cv2.VideoCapture('1.mov')
 
 # Counters for detected persons during motion and total persons
 person_counter = 0
@@ -20,6 +20,7 @@ counted_during_motion = False
 start_time = 0
 delay_time = 4  # 1 second delay before checking the number of persons
 motion_stopped = True
+motion_pause_time = 0.2 # Maximum duration of a pause to be considered part of the same motion event
 
 while cap.isOpened():
     # Read in video
@@ -46,11 +47,14 @@ while cap.isOpened():
                 motion_stopped = False
         else:
             if motion_detected and not motion_stopped:
-                # Motion has stopped, reset flags and increment total people count
-                motion_stopped = True
-                counted_during_motion = False
-                total_people_count += person_counter
-                person_counter = 0
+                # Motion has stopped, check if the pause is within the defined limit
+                elapsed_time = time.time() - start_time
+                if elapsed_time >= motion_pause_time:
+                    # Pause is beyond the limit, reset flags and increment total people count
+                    motion_stopped = True
+                    counted_during_motion = False
+                    total_people_count += person_counter
+                    person_counter = 0
 
         # If motion is detected and not counted during the current motion event
         if motion_detected and not counted_during_motion:
