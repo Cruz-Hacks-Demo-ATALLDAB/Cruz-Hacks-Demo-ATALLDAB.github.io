@@ -15,7 +15,6 @@
   overflow: hidden;
 }
 
-
 .stars {
   position: fixed;
   top: 0;
@@ -802,33 +801,85 @@
     </div>
 
     <script>
+// Function to check if it's Sunday between 8:00 am and 10:00 am
+function isSundayMorning() {
+    var currentDate = new Date();
+    var dayOfWeek = currentDate.getDay(); // 0 = Sunday, 1 = Monday, ..., 6 = Saturday
+    var hours = currentDate.getHours();
 
-var storedPeopleCount = localStorage.getItem('currentPeopleCount');
-    var currentPeopleCount = storedPeopleCount ? parseInt(storedPeopleCount, 10) : 0;
+    return dayOfWeek === 0 && hours >= 8 && hours < 10;
+}
+function isSundayMidMorning() {
+    var currentDate = new Date();
+    var dayOfWeek = currentDate.getDay(); // 0 = Sunday, 1 = Monday, ..., 6 = Saturday
+    var hours = currentDate.getHours();
 
-    // Update the people counter display
-    var peopleCounter = document.getElementById('people-counter');
-    var currentPeopleCountSpan = document.getElementById('current-people-count');
-    currentPeopleCountSpan.textContent = currentPeopleCount;
+    return dayOfWeek === 0 && hours >= 10 && hours < 12;
+}
+function isSundayAfternoon() {
+    var currentDate = new Date();
+    var dayOfWeek = currentDate.getDay(); // 0 = Sunday, 1 = Monday, ..., 6 = Saturday
+    var hours = currentDate.getHours();
 
-    // Function to track people (in or out)
-    function trackPeople(action) {
-        if (action === 'in') {
-            currentPeopleCount += 1;
-        } else if (action === 'out' && currentPeopleCount > 0) {
-            currentPeopleCount -= 1;
-        }
+    return dayOfWeek === 0 && hours >= 12 && hours < 14;
+}
 
-        // Update the people counter display
-        currentPeopleCountSpan.textContent = currentPeopleCount;
 
-        // Update the dynamic bar and display a message
-        updateDynamicBar();
+// Update the people counter display
+var peopleCounter = document.getElementById('people-counter');
+var currentPeopleCountSpan = document.getElementById('current-people-count');
 
-        // Save the updated people count to local storage
-        localStorage.setItem('currentPeopleCount', currentPeopleCount);
+//HARD CODE
+function setInitialPeopleCount() {
+  var currentDate = new Date();
+    var dayOfWeek = currentDate.getDay(); // 0 = Sunday, 1 = Monday, ..., 6 = Saturday
+    var hours = currentDate.getHours();
+    
+    // Check if it's Monday through Friday and outside the specified hours
+    if (isSundayMorning()) {
+      currentPeopleCount = 37;
     }
 
+    else if (isSundayMidMorning()) {
+      currentPeopleCount = 62;
+    }
+
+    else if (isSundayAfternoon()) {
+      currentPeopleCount = 88;
+    }
+
+    //Weekday Closed Hours
+    else if (dayOfWeek >= 1 && dayOfWeek <= 5 && (hours < 6 || hours >= 23)) {
+        currentPeopleCount = 0; // Set to 0 on Monday through Friday outside 6:00 am to 11:00 pm
+    } else {
+        var storedPeopleCount = localStorage.getItem('currentPeopleCount');
+        currentPeopleCount = storedPeopleCount ? parseInt(storedPeopleCount, 10) : 0;
+    }
+
+    // Update the people counter display
+    currentPeopleCountSpan.textContent = currentPeopleCount;
+}
+
+// Call the function to set the initial people count
+setInitialPeopleCount();
+
+// Function to track people (in or out)
+function trackPeople(action) {
+    if (action === 'in') {
+        currentPeopleCount += 1;
+    } else if (action === 'out' && currentPeopleCount > 0) {
+        currentPeopleCount -= 1;
+    }
+
+    // Update the people counter display
+    currentPeopleCountSpan.textContent = currentPeopleCount;
+
+    // Update the dynamic bar and display a message
+    updateDynamicBar();
+
+    // Save the updated people count to local storage
+    localStorage.setItem('currentPeopleCount', currentPeopleCount);
+}
         // Display current date and time
         function updateDateTime() {
             var currentDate = new Date();
@@ -844,6 +895,11 @@ var storedPeopleCount = localStorage.getItem('currentPeopleCount');
 
         // Function to update the dynamic bar and display a message
         function updateDynamicBar() {
+
+          var currentDate = new Date();
+          var dayOfWeek = currentDate.getDay(); // 0 = Sunday, 1 = Monday, ..., 6 = Saturday
+          var hours = currentDate.getHours();
+
             var staticBar = document.getElementById('static-bar');
             var dynamicBar = document.getElementById('dynamic-bar');
             var percentageDisplay = document.getElementById('percentage-display');
@@ -871,17 +927,47 @@ var storedPeopleCount = localStorage.getItem('currentPeopleCount');
             percentageDisplay.innerText = `Percentage Full: ${yellowPercentage.toFixed(2)}%`; // Display the percentage above the input
 
             // Display a message based on the percentage
+
+
             if (yellowPercentage >= 0 && yellowPercentage <= 12.5) {
+                if (dayOfWeek >= 1 && dayOfWeek <= 5 && (hours < 6 || hours >= 23)) {
+                  fullMessage.innerText = "GYM IS CLOSED"; // Set to 0 on Monday through Friday outside 6:00 am to 11:00 pm
+              }
+              else {
                 fullMessage.innerText = "Gym is empty! This is the best time to go!!";
+              }
             } else if (yellowPercentage > 12.5 && yellowPercentage <= 50) {
+              if (dayOfWeek >= 1 && dayOfWeek <= 5 && (hours < 6 || hours >= 23)) {
+                  fullMessage.innerText = "GYM IS CLOSED"; // Set to 0 on Monday through Friday outside 6:00 am to 11:00 pm
+              }
+              else {
                 fullMessage .innerText = "Gym isn't too crowded... You can definitely get your workout done with a few people around";
+              }
+
             } else if (yellowPercentage > 50 && yellowPercentage <= 80) {
+
+              if (dayOfWeek >= 1 && dayOfWeek <= 5 && (hours < 6 || hours >= 23)) {
+                  fullMessage.innerText = "GYM IS CLOSED"; // Set to 0 on Monday through Friday outside 6:00 am to 11:00 pm
+              }
+
+              else {
                 fullMessage.innerText = "The gym is very full! Be ready to wait for a machine, however you could probably sneak a workout in.";
-            } else if (yellowPercentage > 80 && yellowPercentage <100) {
+              }
+            } else if (yellowPercentage > 80 && yellowPercentage < 100) {
+              if (dayOfWeek >= 1 && dayOfWeek <= 5 && (hours < 6 || hours >= 23)) {
+                  fullMessage.innerText = "GYM IS CLOSED"; // Set to 0 on Monday through Friday outside 6:00 am to 11:00 pm
+              }
+              else {
                 fullMessage.innerText = "The gym is packed, be ready to wait outside :( I'd just do laps around the track atp :(...";
+              }
             } 
             else if (yellowPercentage >= 100) {
+              if (dayOfWeek >= 1 && dayOfWeek <= 5 && (hours < 6 || hours >= 23)) {
+                  fullMessage.innerText = "GYM IS CLOSED"; // Set to 0 on Monday through Friday outside 6:00 am to 11:00 pm
+              }
+              else {
                 fullMessage.innerText = "The gym is literally at maximum capacity, DO NOT GO, it's really difficult.";
+              }
             } 
             else {
                 fullMessage.innerText = ""; // Clear the message if not full
