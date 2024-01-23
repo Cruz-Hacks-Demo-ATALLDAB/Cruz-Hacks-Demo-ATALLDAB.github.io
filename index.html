@@ -930,14 +930,14 @@ function trackPeople(action) {
 
 
             if (yellowPercentage >= 0 && yellowPercentage <= 12.5) {
-                if (dayOfWeek >= 1 && dayOfWeek <= 5 && (hours < 6 || hours >= 23)) {
+                if ((dayOfWeek >= 1 && dayOfWeek <= 5 && (hours < 6 || hours >= 23)) || (dayOfWeek === 0 && dayOfWeek === 6 && (hours < 8 || hours >= 20))) {
                   fullMessage.innerText = "GYM IS CLOSED"; // Set to 0 on Monday through Friday outside 6:00 am to 11:00 pm
               }
               else {
                 fullMessage.innerText = "Gym is empty! This is the best time to go!!";
               }
             } else if (yellowPercentage > 12.5 && yellowPercentage <= 50) {
-              if (dayOfWeek >= 1 && dayOfWeek <= 5 && (hours < 6 || hours >= 23)) {
+              if ((dayOfWeek >= 1 && dayOfWeek <= 5 && (hours < 6 || hours >= 23)) || (dayOfWeek === 0 && dayOfWeek === 6 && (hours < 8 || hours >= 20))) {
                   fullMessage.innerText = "GYM IS CLOSED"; // Set to 0 on Monday through Friday outside 6:00 am to 11:00 pm
               }
               else {
@@ -946,7 +946,7 @@ function trackPeople(action) {
 
             } else if (yellowPercentage > 50 && yellowPercentage <= 80) {
 
-              if (dayOfWeek >= 1 && dayOfWeek <= 5 && (hours < 6 || hours >= 23)) {
+              if ((dayOfWeek >= 1 && dayOfWeek <= 5 && (hours < 6 || hours >= 23)) || (dayOfWeek === 0 && dayOfWeek === 6 && (hours < 8 || hours >= 20))) {
                   fullMessage.innerText = "GYM IS CLOSED"; // Set to 0 on Monday through Friday outside 6:00 am to 11:00 pm
               }
 
@@ -954,7 +954,7 @@ function trackPeople(action) {
                 fullMessage.innerText = "The gym is very full! Be ready to wait for a machine, however you could probably sneak a workout in.";
               }
             } else if (yellowPercentage > 80 && yellowPercentage < 100) {
-              if (dayOfWeek >= 1 && dayOfWeek <= 5 && (hours < 6 || hours >= 23)) {
+              if ((dayOfWeek >= 1 && dayOfWeek <= 5 && (hours < 6 || hours >= 23)) || (dayOfWeek === 0 && dayOfWeek === 6 && (hours < 8 || hours >= 20))) {
                   fullMessage.innerText = "GYM IS CLOSED"; // Set to 0 on Monday through Friday outside 6:00 am to 11:00 pm
               }
               else {
@@ -962,7 +962,7 @@ function trackPeople(action) {
               }
             } 
             else if (yellowPercentage >= 100) {
-              if (dayOfWeek >= 1 && dayOfWeek <= 5 && (hours < 6 || hours >= 23)) {
+              if ((dayOfWeek >= 1 && dayOfWeek <= 5 && (hours < 6 || hours >= 23)) || (dayOfWeek === 0 && dayOfWeek === 6 && (hours < 8 || hours >= 20))) {
                   fullMessage.innerText = "GYM IS CLOSED"; // Set to 0 on Monday through Friday outside 6:00 am to 11:00 pm
               }
               else {
